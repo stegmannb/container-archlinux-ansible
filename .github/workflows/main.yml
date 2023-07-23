@@ -93,16 +93,13 @@ jobs:
           build-args: |
             some_arg=some_value
 
-      - name: outputs
-        run: echo ${{ steps.build-image.outputs.image }}
-
       # Podman Login action (https://github.com/redhat-actions/podman-login) also be used to log in,
       # in which case 'username' and 'password' can be omitted.
       - name: Push to GitHub CR
         id: push
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: ${{ steps.build-image.outputs.image }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
           tags: ${{ steps.build-image.outputs.tags }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
