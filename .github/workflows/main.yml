@@ -25,10 +25,10 @@ jobs:
       packages: write
       #
     steps:
-      - Run: REGISTRY
+      - name: REGISTRY
         run: echo ${{ env.REGISTRY }}
 
-      - Run: IMAGE_NAME
+      - name: IMAGE_NAME
         run: echo ${{ env.IMAGE_NAME }}
 
       - name: Checkout repository
@@ -74,10 +74,10 @@ jobs:
       packages: write
       #
     steps:
-      - Run: REGISTRY
+      - name: REGISTRY
         run: echo ${{ env.REGISTRY }}
 
-      - Run: IMAGE_NAME
+      - name: IMAGE_NAME
         run: echo ${{ env.IMAGE_NAME }}
 
       - name: Checkout repository
@@ -93,7 +93,7 @@ jobs:
           build-args: |
             some_arg=some_value
 
-      - Run: outputs
+      - name: outputs
         run: echo ${{ steps.build-image.outputs.image }}
 
       # Podman Login action (https://github.com/redhat-actions/podman-login) also be used to log in,
