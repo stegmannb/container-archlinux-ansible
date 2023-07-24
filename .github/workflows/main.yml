@@ -25,12 +25,6 @@ jobs:
       packages: write
       #
     steps:
-      - name: REGISTRY
-        run: echo ${{ env.REGISTRY }}
-
-      - name: IMAGE_NAME
-        run: echo ${{ env.IMAGE_NAME }}
-
       - name: Checkout repository
         uses: actions/checkout@v3
 
