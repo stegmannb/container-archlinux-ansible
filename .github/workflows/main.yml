@@ -100,7 +100,7 @@ jobs:
         uses: redhat-actions/push-to-registry@v2
         with:
           image: ${{ env.IMAGE_NAME }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
+          tags: ${{ github.sha }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
