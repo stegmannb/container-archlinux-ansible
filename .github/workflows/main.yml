@@ -86,7 +86,7 @@ jobs:
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
         with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          image: ${{ env.IMAGE_NAME }}
           tags: ${{ github.sha }}
           containerfiles: |
             ./Containerfile
@@ -99,7 +99,7 @@ jobs:
         id: push
         uses: redhat-actions/push-to-registry@v2
         with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          image: ${{ env.IMAGE_NAME }}
           tags: ${{ steps.build-image.outputs.tags }}
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
