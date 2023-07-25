@@ -102,4 +102,6 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           registry: ${{ env.REGISTRY }}
           # tags: ${{ steps.meta.outputs.tags }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:main
+          tags: >
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:{{ github.GITHUB_REF_NAME }}
+            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:{{ github.GITHUB_SHA }}
