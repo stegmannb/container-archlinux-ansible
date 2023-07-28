@@ -1,7 +1,6 @@
 #
-name: Create and publish a Docker image
+name: Create and publish a container image
 
-# Configures this workflow to run every time a change is pushed to the branch called `release`.
 "on":
   pull_request:
   push:
@@ -10,7 +9,6 @@ name: Create and publish a Docker image
   schedule:
     - cron: "10 2 * * 0"
 
-# Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
@@ -29,11 +27,11 @@ jobs:
       packages: write
 
     steps:
-      - name: Dump env
-        run: echo "$TAGS"
+      # - name: Dump env
+      #   run: echo "$TAGS"
 
-      - name: Dump context
-        run: echo "${{ env.TAGS }}"
+      # - name: Dump context
+      #   run: echo "${{ env.TAGS }}"
 
       - name: Add the latest tag
         run: |
@@ -44,11 +42,11 @@ jobs:
         run: |
           echo "NOW=$(date --iso-8601=seconds)" >> $GITHUB_ENV
 
-      - name: Dump env
-        run: echo "$TAGS"
+      # - name: Dump env
+      #   run: echo "$TAGS"
 
-      - name: Dump context
-        run: echo "${{ env.TAGS }}"
+      # - name: Dump context
+      #   run: echo "${{ env.TAGS }}"
 
       - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1
@@ -59,12 +57,6 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v3
-
-      # - name: Extract metadata (tags, labels) for Docker
-      #   id: meta
-      #   uses: docker/metadata-action@v4.6.0
-      #   with:
-      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
