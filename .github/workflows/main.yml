@@ -14,6 +14,9 @@ name: Create and publish a Docker image
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  TAGS: >-
+    ${{ github.ref_name }}
+    ${{ github.sha }}
 
 # There is a single job in this workflow. It's configured to run on the latest available version of Ubuntu.
 jobs:
@@ -68,6 +71,11 @@ jobs:
       packages: write
 
     steps:
+      - name: Add the latest tag
+        run: |
+          echo "TAGS=${{ env.TAGS }} latest" >> $GITHUB_ENV
+        if: github.ref_name == "main"
+
       - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1
         with:
