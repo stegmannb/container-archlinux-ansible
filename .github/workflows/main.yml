@@ -66,7 +66,7 @@ jobs:
     permissions:
       contents: read
       packages: write
-      #
+
     steps:
       - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1
@@ -78,11 +78,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v4.6.0
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+      # - name: Extract metadata (tags, labels) for Docker
+      #   id: meta
+      #   uses: docker/metadata-action@v4.6.0
+      #   with:
+      #     images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Buildah Action
         uses: redhat-actions/buildah-build@v2
@@ -92,8 +92,11 @@ jobs:
             ./Containerfile
           build-args: |
             some_arg=some_value
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          # tags: ${{ steps.meta.outputs.tags }}
+          tags: >-
+            ${{ github.ref_name }}
+            ${{ github.sha }}
+          # labels: ${{ steps.meta.outputs.labels }}
 
       - name: Push to ghcr.io
         id: push
@@ -102,6 +105,9 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           registry: ${{ env.REGISTRY }}
           # tags: ${{ steps.meta.outputs.tags }}
-          tags: >
-            ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
+          # tags: >
+          #   ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
           # ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: >-
+            ${{ github.ref_name }}
+            ${{ github.sha }}
