@@ -27,17 +27,22 @@ jobs:
       packages: write
 
     steps:
-      
-      - name: Dump tags
+      - name: Dump env
         run: echo "$TAGS"
+
+      - name: Dump context
+        run: echo "${{ env.TAGS }}"
 
       - name: Add the latest tag
         run: |
           echo "TAGS=${{ env.TAGS }} latest" >> $GITHUB_ENV
         if: ${{ github.ref_name == 'main' }}
 
-      - name: Dump tags
+      - name: Dump env
         run: echo "$TAGS"
+
+      - name: Dump context
+        run: echo "${{ env.TAGS }}"
 
       - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1
