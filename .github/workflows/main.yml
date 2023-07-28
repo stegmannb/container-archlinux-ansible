@@ -74,7 +74,7 @@ jobs:
       - name: Add the latest tag
         run: |
           echo "TAGS=${{ env.TAGS }} latest" >> $GITHUB_ENV
-        if: github.ref_name == "main"
+        if: ${{ github.ref_name == 'main' }}
 
       - name: Log in to ghcr.io
         uses: redhat-actions/podman-login@v1
