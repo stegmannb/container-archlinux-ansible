@@ -17,6 +17,8 @@ env:
   TAGS: >-
     ${{ github.ref_name }}
     ${{ github.sha }}
+    ${{ github.run_id }}
+  AUTHORS: Bastian Stegmann
 
 jobs:
   build:
@@ -37,6 +39,10 @@ jobs:
         run: |
           echo "TAGS=${{ env.TAGS }} latest" >> $GITHUB_ENV
         if: ${{ github.ref_name == 'main' }}
+
+      - name: Register current timestamp
+        run: |
+          echo "NOW=$(date --iso-8601=seconds)" >> $GITHUB_ENV
 
       - name: Dump env
         run: echo "$TAGS"
@@ -68,11 +74,17 @@ jobs:
             ./Containerfile
           build-args: |
             some_arg=some_value
-          # tags: ${{ steps.meta.outputs.tags }}
-          tags: >-
-            ${{ github.ref_name }}
-            ${{ github.sha }}
-          # labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ env.TAGS }}
+          labels: |
+            org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository}}"
+            org.opencontainers.image.created="${NOW}"
+            org.opencontainers.image.authors="$AUTHORS"
+            org.opencontainers.image.licenses=MIT
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.title="${{ github.repository}}"
+            org.opencontainers.image.url="${{ github.server_url }}/${{ github.repository}}"
+            org.opencontainers.image.version=${{ github.ref_name }}
+          # org.opencontainers.image.description=
 
       - name: Push to ghcr.io
         id: push
@@ -80,10 +92,4 @@ jobs:
         with:
           image: ${{ env.IMAGE_NAME }}
           registry: ${{ env.REGISTRY }}
-          # tags: ${{ steps.meta.outputs.tags }}
-          # tags: >
-          #   ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.ref_name }}
-          # ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
-          tags: >-
-            ${{ github.ref_name }}
-            ${{ github.sha }}
+          tags: ${{ env.TAGS }}
