@@ -22,7 +22,7 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN
-´´
+´´´
 
 ## Ansible example
 
