@@ -4,7 +4,7 @@ An Archlinux container used for testing Ansible roles.
 
 ## Molecule example
 
-´´´yaml
+```yaml
 driver:
   name: containers
 
@@ -22,20 +22,20 @@ platforms:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     capabilities:
       - SYS_ADMIN
-´´´
+```
 
 ## Ansible example
 
-´´´yaml
-    - name: Create Archlinux test container
-      containers.podman.podman_container:
-        name: test-archlinux
-        image: ghcr.io/stegmannb/container-archlinux-ansible:main
-        groups:
-          - archlinux
-        command: /sbin/init
-        volumes:
-          - /sys/fs/cgroup:/sys/fs/cgroup:ro
-        capabilities:
-          - SYS_ADMIN
-´´´
+```yaml
+- name: Create Archlinux test container
+  containers.podman.podman_container:
+    name: test-archlinux
+    image: ghcr.io/stegmannb/container-archlinux-ansible:main
+    groups:
+      - archlinux
+    command: /sbin/init
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    capabilities:
+      - SYS_ADMIN
+```
