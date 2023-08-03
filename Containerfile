@@ -1,6 +1,7 @@
 FROM docker.io/archlinux:base-devel
 
-RUN pacman -Syu --noconfirm sudo python ansible sshpass \
+RUN pacman -Syu --noconfirm sudo python \
+    && paccache --force --remove --keep 0 \
     && useradd --system --create-home --shell /bin/bash ansible \
     && echo "ansible ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/ansible-sudo \
     && useradd --system --create-home --shell /bin/bash aur_builder \
