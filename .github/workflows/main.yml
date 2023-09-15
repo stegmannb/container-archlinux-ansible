@@ -21,11 +21,9 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    # Sets the permissions granted to the `GITHUB_TOKEN` for the actions in this job.
     permissions:
       contents: read
       packages: write
-
     steps:
       # - name: Dump env
       #   run: echo "$TAGS"
@@ -64,8 +62,6 @@ jobs:
           image: ${{ env.IMAGE_NAME }}
           containerfiles: |
             ./Containerfile
-          build-args: |
-            some_arg=some_value
           tags: ${{ env.TAGS }}
           labels: |
             org.opencontainers.image.source="${{ github.server_url }}/${{ github.repository}}"
